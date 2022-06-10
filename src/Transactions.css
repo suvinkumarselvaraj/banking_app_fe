@@ -1,5 +1,5 @@
 .Transactions__container{
-  
+ 
     width: 100%;
 
 }
@@ -11,9 +11,10 @@
     justify-content:space-evenly;
     text-align: center;
     border-bottom: 1px solid rgb(184, 170, 170);
-    
+
 }
 .field{
+  
     width: 100px;
 }
 .row2__container{

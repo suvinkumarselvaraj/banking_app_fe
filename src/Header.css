@@ -6,12 +6,13 @@ html, body {
     display: flex;
     justify-content: left;
     padding: 10px;
-    max-width:100%;
+    width:99%;
     overflow: hidden;
     align-items: center;
     background-color: #92BA92 ;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+   
    
 }
 .Header__bankLogo__div{

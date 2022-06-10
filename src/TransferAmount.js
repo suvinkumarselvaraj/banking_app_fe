@@ -116,7 +116,8 @@ function TransferAmount() {
                 navigate("/accountDetails",{replace:true});
               }else
               alert("something wrong, try again later");
-        })   
+        })  
+        .catch(error => console.log(error));
             }
         })
         .catch(err => console.error(err));

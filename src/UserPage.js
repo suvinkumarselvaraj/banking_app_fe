@@ -27,15 +27,51 @@ function UserPage() {
           sessionStorage.removeItem("balance");
           sessionStorage.setItem("balance",data.getItem("balance"));
         }
-        if(data.status5 === "true")
+        if(data.status5 == "true")
         {
           navigate('/forcePasswordChange');
         }
-        else{
-        console.log("not yet");
+        else
+        if(data.status10 == "true"){
+          var type = "Maintenance fee";
+          var amount = "100";
+          var transfer_data = {
+            'accountNumber' : sessionStorage.getItem("accountNo"),
+            'customerId' : sessionStorage.getItem("customerId"),
+            'amount' : amount,
+            'balance': sessionStorage.getItem("balance"),
+            'transactionType' : type,
+  
+              }
+          //deduct a maintenance fee of rs. 100
+          fetch("/maintenancefee",{
+            method: 'POST',
+            headers:{
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(transfer_data)
+          })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data);
+            if(data.status === "success"){
+              console.log("succesfully inserted");
+              sessionStorage.removeItem("balance");
+              sessionStorage.setItem("balance",data.getItem("balance"));
+              //delete the last record of of the transaction history
+              // fetch("/deletehistory?id="+sessionStorage.getItem("customerId"))
+              // .then(res => res.json())
+              // .then(data => console.log(data))
+              // .catch(err => console.log(err))
+             
+            }else
+            alert("something wrong, try again later");
+          })
         }
-        })  
       })
+    }
+    )
       
   const [{active_user},dispatch] = useStateValue();
   return (

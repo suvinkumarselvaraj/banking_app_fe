@@ -93,7 +93,7 @@ app.use(
     })
 );
 app.use(
-    '/checkTransactions',
+    '/checktransactions',
     createProxyMiddleware({
         target:'http://localhost:8080/website',
         changeOrigin: true
@@ -101,6 +101,20 @@ app.use(
 );
 app.use(
     '/allUsers',
+    createProxyMiddleware({
+        target:'http://localhost:8080/website',
+        changeOrigin: true
+    })
+);
+app.use(
+    '/maintenancefee',
+    createProxyMiddleware({
+        target:'http://localhost:8080/website',
+        changeOrigin: true
+    })
+);
+app.use(
+    '/deletehistory',
     createProxyMiddleware({
         target:'http://localhost:8080/website',
         changeOrigin: true
