@@ -64,6 +64,7 @@ function UserPage() {
               // .then(res => res.json())
               // .then(data => console.log(data))
               // .catch(err => console.log(err))
+              navigate('/forcePasswordChange');
              
             }else
             alert("something wrong, try again later");
