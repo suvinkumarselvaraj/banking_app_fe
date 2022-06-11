@@ -4,6 +4,14 @@ import './UserPage.css';
 import {Link,useNavigate} from 'react-router-dom';
 import Cookies from 'js-cookie'; 
 import { integerPropType } from '@mui/utils';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SavingsIcon from '@mui/icons-material/Savings';
+import AtmIcon from '@mui/icons-material/Atm';
+import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStation';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import InfoIcon from '@mui/icons-material/Info';
+import PasswordIcon from '@mui/icons-material/Password';
+
 function UserPage() {
   const navigate = useNavigate();
   // sessionStorage.getItem('accountNo').toString()
@@ -17,8 +25,8 @@ function UserPage() {
       // .then(res => res.json())
       // .then(data => console.log(data))
       // .catch(err => console.log(err));
-      
-      console.log(document.cookie);
+      document.cookie = "JSESSION=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path =/";
+      console.log(document.cookie);     
      fetch('/checktransactions?acc='+sessionStorage.getItem('accountNo').toString())
       .then(res => res.json())
       .then(data=>{
@@ -78,41 +86,61 @@ function UserPage() {
   return (
     <div className = 'UserPage__container'>
       <p>Account number: {sessionStorage.getItem("accountNo")}</p>
+      <div className='row1'>
+      <Link to = '/accountDetails'>
       <div className = 'service lineOne'>
-        <Link to = '/accountDetails'>
+       
+          <div><AccountCircleIcon className='account__icon' style = {{fontSize:40}}/></div>
         <button className='userPage__button'>Account Details</button>  
-        </Link>
+        
       </div>
+      </Link>
+      <Link to = "/deposit">
       <div className = 'service lineTwo'>
-        <Link to = "/deposit">
+        <div> <SavingsIcon className='account__icon' style= {{fontSize:40}}/></div>
         <button className='userPage__button'>Cash Deposit</button>  
-        </Link>
+        
       </div>
+      </Link>
         
       <div className = 'service lineThree'>
       <Link to = '/withdraw'>
+        <div>
+          <AtmIcon  className='account__icon' style= {{fontSize:40}} />
+        </div>
         <button className='userPage__button'>Cash Withdrawal</button>
         </Link>
       </div>
-      <div className = 'service line4'>
-        <Link to = '/transfer'>
+      <Link to = '/transfer'>
+      <div className = 'service line4'>   
+          <div><TransferWithinAStationIcon className='account__icon' style= {{fontSize:40}} /></div>
         <button className='userPage__button'>Transfer Amount</button>
-        </Link>
+       
       </div>
+      </Link>
+      </div>
+
+      <div className='row2'>
+      <Link to = '/transactions/details'>
       <div className = "service line5">
-        <Link to = '/transactions/details'>
+       
+          <div><ReceiptIcon  className='account__icon' style= {{fontSize:40}} /></div>
         <button className='userPage__button'>View Transactions</button>
-        </Link>
+       
       </div>
+      </Link>
       <div className = "service line6">
         <Link to = '/maintenance'>
+          <div><InfoIcon className='account__icon' style= {{fontSize:40}} /></div>
         <button className='userPage__button'>Maintenance charge details</button>
         </Link>
       </div>
       <div className = "service line7">
         <Link to = '/changePassword'>
+          <div><PasswordIcon  className='account__icon' style= {{fontSize:40}} /></div>
         <button className='userPage__button'>Change Password</button>
         </Link>
+      </div>
       </div>
       </div>
   )

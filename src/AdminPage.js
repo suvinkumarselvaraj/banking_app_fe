@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { useStateValue } from './StateProvider'
 import { Link } from 'react-router-dom';
 import './AdminPage.css'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import PageviewOutlinedIcon from '@mui/icons-material/PageviewOutlined';
+import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined';
 function AdminPage() {
     const [{active_admin},dispatch] = useStateValue();
     useEffect(()=>{
@@ -13,21 +16,28 @@ function AdminPage() {
         <strong>Welcome {active_admin.toUpperCase()}</strong>
         </div>
         <div className='options__container'>
+        <Link to = '/adminAddNewCx'>
             <div className='add__customer'>
-                <Link to = '/adminAddNewCx'>
+                <div>
+               <AddCircleOutlineIcon className = 'account__icon' style = {{fontSize:40}} />
+               </div>
                 <button className='addCustomer'>Add new customer</button>
-                </Link>
+                
             </div>
+            </Link>
+            <Link to = '/viewTopCustomers'>
             <div className='view__customer'>
-                <Link to = '/viewTopCustomers'>
+                <div><PageviewOutlinedIcon  className = 'account__icon' style = {{fontSize:40}} /></div>
                 <button className='viewCustomer'>View top customer</button>
-                </Link>
+                
             </div>
+            </Link>
+            <Link to = '/users'>
             <div className='view__customer__totally'>
-                <Link to = '/users'>
-                <button className='viewCustomer'>List users</button>
-                </Link>
+               <div> <FormatListNumberedOutlinedIcon className = 'account__icon' style = {{fontSize:40}} /></div>
+                <button className='viewCustomer'>List users</button>       
             </div>
+            </Link>
 
         </div>
     </div>

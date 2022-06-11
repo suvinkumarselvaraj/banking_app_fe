@@ -14,9 +14,19 @@
     text-decoration: none; 
     color:black;
     margin-top: 15px;
+    
+    
+}
+.options__container{
+    padding-top: 100px;
 }
 .viewCustomer:hover,.addCustomer:hover{
 background-color: #92BA92 ;
     color:white;
     font-weight: bold;
     border-radius: 5px; }
+
+    .account__icon{  
+        color: #92BA92;
+    }
+    
