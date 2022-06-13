@@ -1,6 +1,20 @@
-import React from 'react'
-
+import React,{useEffect} from 'react'
+import {useNavigate} from 'react-router-dom'
 function Maintenance() {
+    const navigate = useNavigate([]);
+    useEffect(()=>
+    {fetch('/isSessionPresent',{
+      method: 'GET',
+      credentials: 'include'
+        })
+      .then(res => res.json())
+      .then(data => {
+      console.log(data)
+      if(data.session == "absent"){
+          navigate('/loginn');
+      }
+    })
+},[])
   return (
     <div className='Maintenance__container'>Maintenance
         <div className='line1'>

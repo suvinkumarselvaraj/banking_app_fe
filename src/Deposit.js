@@ -15,7 +15,7 @@ function Deposit() {
         if(data.session == "absent"){
           navigate('/');}
         })
-      })
+      },[])
   function handleSubmit(event){
     event.preventDefault();
     var data = new FormData(event.target);

@@ -3,7 +3,7 @@ import './TransferAmount.css'
 import { useNavigate } from 'react-router-dom';
 function TransferAmount() {
     const navigate = useNavigate();  
-    useEffect(()=>{
+     useEffect(()=>{
         console.log('logg in to check if this is working');
         fetch('/isSessionPresent',{
             method: 'GET',
@@ -13,9 +13,7 @@ function TransferAmount() {
         .then(data => {
             console.log(data)
             if(data.session == "absent"){
-                alert("unauthorized access ");
                 navigate('/');
-                return;
             }
         else
         {
@@ -142,6 +140,7 @@ function TransferAmount() {
   return (
     <div className='TransferAmount__container'>
         <form onSubmit={handleTransfer}>
+      
         <div className='line1'>
             <p>Transfer money online instantly</p>
         </div>
@@ -174,5 +173,7 @@ function TransferAmount() {
     </div>
   )
 }
-
-export default TransferAmount
+function example() {
+   return <div>Hello</div>
+}
+export default TransferAmount   

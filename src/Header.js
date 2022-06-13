@@ -13,11 +13,11 @@ function Header() {
   function handleSign(event){
     console.log(event.target.innerHTML);
     if(event.target.innerHTML === 'Sign in')
-    navigate("/home");
-    
+    navigate("/login");
 
     // type: 'Add_logged_user',
     // logged_user: sessionStorage.getItem("username")
+    console.log('about to call logout');
     fetch('/logout',{
       method:'get',
       credentials:'include'
@@ -25,7 +25,6 @@ function Header() {
     .then(res => res.json())
     .then(data => {
       console.log(data);
-    
     })
     .catch(err => console.log(err));
     sessionStorage.clear();
@@ -33,10 +32,11 @@ function Header() {
       type: 'Remove_logged_user',
       logged_user: null
     })
-    // cookie.remove('session');
-    // cookie.remove('JSESSION');
     navigate("/",{
       replace:true});  
+    // cookie.remove('session');
+    // cookie.remove('JSESSION');
+    
   
   }
   return (

@@ -121,7 +121,7 @@ app.use(
     })
 );
 app.use(
-    '/accountDetails',
+    '/account',
     createProxyMiddleware({
         target:'http://localhost:8080/website',
         changeOrigin: true

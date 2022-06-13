@@ -31,7 +31,7 @@ function PreLogin() {
       <div className='PreLogin__text'>
         <p>Your One Stop Banking App</p>
       </div>
-      <Link to = "/login">
+      <Link to = "/loginn">
       <LoginButton/>
       </Link>
       <OpenAccount />

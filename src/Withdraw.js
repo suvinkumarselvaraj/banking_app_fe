@@ -5,6 +5,7 @@ import { AltRoute } from '@mui/icons-material';
 function Withdraw() {
     const navigate = useNavigate();
     useEffect(()=>{
+
         fetch('/isSessionPresent',{
             method: 'GET',
             credentials: 'include'
