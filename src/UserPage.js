@@ -25,22 +25,21 @@ function UserPage() {
       // .then(res => res.json())
       // .then(data => console.log(data))
       // .catch(err => console.log(err));
-      document.cookie = "JSESSION=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path =/";
-      console.log(document.cookie);     
+      // document.cookie = "JSESSION=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path =/";
+      // console.log(document.cookie);     
      fetch('/checktransactions?acc='+sessionStorage.getItem('accountNo').toString())
       .then(res => res.json())
       .then(data=>{
         console.log(data);
-          if(data.maintenance === "success"){
+          if(data.maintenance === "success") {
           sessionStorage.removeItem("balance");
           sessionStorage.setItem("balance",data.getItem("balance"));
         }
-        if(data.status5 == "true")
-        {
+
+        if(data.status5 == "true") {
           navigate('/forcePasswordChange');
-        }
-        else
-        if(data.status10 == "true"){
+
+        } else if(data.status10 == "true"){
           var type = "Maintenance fee";
           var amount = "100";
           var transfer_data = {
@@ -64,15 +63,11 @@ function UserPage() {
           .then(data => {
             console.log(data);
             if(data.status === "success"){
+              navigate('/forcePasswordChange');
               console.log("succesfully inserted");
               sessionStorage.removeItem("balance");
               sessionStorage.setItem("balance",data.getItem("balance"));
-              //delete the last record of of the transaction history
-              // fetch("/deletehistory?id="+sessionStorage.getItem("customerId"))
-              // .then(res => res.json())
-              // .then(data => console.log(data))
-              // .catch(err => console.log(err))
-              navigate('/forcePasswordChange');
+              
              
             }else
             alert("something wrong, try again later");
@@ -82,7 +77,7 @@ function UserPage() {
     }
     )
       
-  const [{active_user},dispatch] = useStateValue();
+  //const [{active_user},dispatch] = useStateValue();
   return (
     <div className = 'UserPage__container'>
       <p>Account number: {sessionStorage.getItem("accountNo")}</p>
@@ -138,12 +133,16 @@ function UserPage() {
       <div className = "service line7">
         <Link to = '/changePassword'>
           <div><PasswordIcon  className='account__icon' style= {{fontSize:40}} /></div>
-        <button className='userPage__button'>Change Password</button>
+        <button className='++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++9G'>Change Password</button>
         </Link>
       </div>
       </div>
       </div>
   )
+}
+
+function example(){
+  return <div>Hello</div>
 }
 
 export default UserPage

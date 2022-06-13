@@ -21,8 +21,7 @@ const reducer = (state, action)=>
                     active_admin: action.logged_admin
                 }
                 break;
-                case 'Remove_logged_admin':
-                   
+                case 'Remove_logged_admin':    
                     return{
                         ...state,
                         active_admin: action.logged_admin
@@ -35,6 +34,14 @@ const reducer = (state, action)=>
                         sorting_range: action.sorting_range
                     }
                     break;
+                
+                case 'Remove_logged_user':
+                    return{
+                        ...state,
+                        active_user:action.logged_user
+                    }
+                    break;
+
         }
     }
 }

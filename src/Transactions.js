@@ -5,8 +5,21 @@ import './Transactions.css';
 function Transactions() {
     var i = 0;
             const navigate = useNavigate();
-            if(sessionStorage.getItem("customerId")==='undefined')
-            navigate("/login");
+            useEffect(()=>{
+                console.log('logg in to check if this is working');
+                fetch('/isSessionPresent',{
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    if(data.session == "absent"){
+                      navigate('/');}
+                    })
+                  })
+            // if(sessionStorage.getItem("customerId")==='undefined')
+            // navigate("/login");
             const [accounts,setAccounts] = useState([]);
    useEffect(()=>{
     var id = sessionStorage.getItem("customerId");

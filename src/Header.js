@@ -1,17 +1,43 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './Header.css'
-import useStateValue from './StateProvider';
+import {useStateValue} from './StateProvider';
+import { useCookies } from 'react-cookie';
+import cookie from 'react-cookies'
+
 function Header() {
+
+  const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
+  const [active_user,dispatch] = useStateValue();
   const navigate = useNavigate();
   function handleSign(event){
     console.log(event.target.innerHTML);
     if(event.target.innerHTML === 'Sign in')
     navigate("/home");
     
+
+    // type: 'Add_logged_user',
+    // logged_user: sessionStorage.getItem("username")
+    fetch('/logout',{
+      method:'get',
+      credentials:'include'
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+    
+    })
+    .catch(err => console.log(err));
     sessionStorage.clear();
+    dispatch({
+      type: 'Remove_logged_user',
+      logged_user: null
+    })
+    // cookie.remove('session');
+    // cookie.remove('JSESSION');
     navigate("/",{
       replace:true});  
+  
   }
   return (
     <div className='Header__container'>

@@ -1,15 +1,19 @@
+body{
+    
+    
+}
 .Login__container{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 120px;
-    
+    margin-top: 10px;
     width: 300px;
-    height: 350px;
+    height:max-content;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    
+
     border-color: 1px solid black;
+    
 }
 .Login__container__account__no,.Login__container__account__password{
     margin-top: 15px;

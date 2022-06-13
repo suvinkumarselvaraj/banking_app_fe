@@ -8,8 +8,58 @@ import { useStateValue } from './StateProvider';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
- 
+    
     const navigate = useNavigate();
+    useEffect(()=>{
+        console.log('hello');
+        //even before loading the login page, check whether exists a session
+        //call in a api to check if the session exists
+        fetch('/isSessionPresent',{
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if(data.session == "present"){
+                //check whether the session is same
+                fetch('/isSameSession',{
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if(data.isValidUser == "failure")
+                    //invalid the session and log the user out
+                   {
+                    fetch('/logout',{
+                    method: 'GET',
+                    credentials: 'include'
+                   }).then(res => res.json())
+                   .then(data => console.log("successfully logged the user out and cleared the sesion"))
+                   .catch(err => console.log(err));
+                    }
+                     else{
+                    navigate("/home");
+                    }   
+                })
+            // }else{
+            //     //create a new session
+                
+            }
+           
+        })
+        .catch(err => console.log(err));
+        //if the session exists then check whether if the session id incoming is same 
+        //if same, then navigate the user to the home page
+        //if different, log the user out and invalidate the session
+
+        //if there is no session, the allow the user to the login page
+
+        // if(document.cookie!='')
+        // navigate('/home') ;
+    })
     const [active_user,dispatch] = useStateValue();
     function handleLogin(event){
         // event.preventDefault();

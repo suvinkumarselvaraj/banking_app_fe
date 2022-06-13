@@ -1,17 +1,31 @@
 import React, { useEffect } from 'react'
 import {useNavigate} from 'react-router-dom';
 function UserAccount() {
-        
+        const navigate = useNavigate();
         useEffect(()=>{
-                fetch('/validation',{
-                        headers:{
-                                'Authorization':'Bearer SomeToken'
-                        },
+             
+                        fetch('/isSessionPresent',{
+                            method: 'GET',
+                            credentials: 'include'
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data)
+                            if(data.session == "absent"){
+                              navigate('/');}
+                            })
+                   
+                fetch('/accountDetails',{                     
                         method:'GET',
                         credentials:'include'
                 })
                 .then(res => res.json())
-                .then(data => console.log(data))
+                .then(data => {
+                        if (data.isValidUser != "success"){
+                                alert("no use");
+                        }
+                        console.log(data)
+                })
                 .catch(err => console.log(err));
         })
   return (

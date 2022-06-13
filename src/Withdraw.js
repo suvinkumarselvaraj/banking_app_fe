@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Withdraw.css';
 import { useNavigate } from 'react-router-dom';
 import { AltRoute } from '@mui/icons-material';
 function Withdraw() {
     const navigate = useNavigate();
-
+    useEffect(()=>{
+        fetch('/isSessionPresent',{
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if(data.session == "absent"){
+                navigate('/');
+            }
+        })
+    })
+    
     function handleWithdrawlSubmit(event){
         event.preventDefault();
         var data = new FormData(event.target);

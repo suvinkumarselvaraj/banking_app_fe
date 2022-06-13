@@ -1,8 +1,21 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import './Deposit.css'
 import { useNavigate } from 'react-router-dom';
 function Deposit() {
   const navigate = useNavigate();
+  useEffect(()=>{
+    console.log('logg in to check if this is working');
+    fetch('/isSessionPresent',{
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+        if(data.session == "absent"){
+          navigate('/');}
+        })
+      })
   function handleSubmit(event){
     event.preventDefault();
     var data = new FormData(event.target);

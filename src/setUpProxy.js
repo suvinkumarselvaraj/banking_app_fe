@@ -120,6 +120,34 @@ app.use(
         changeOrigin: true
     })
 );
+app.use(
+    '/accountDetails',
+    createProxyMiddleware({
+        target:'http://localhost:8080/website',
+        changeOrigin: true
+    })
+);
+app.use(
+    '/isSessionPresent',
+    createProxyMiddleware({
+        target:'http://localhost:8080/website',
+        changeOrigin: true
+    })
+);
+app.use(
+    '/logout',
+    createProxyMiddleware({
+        target:'http://localhost:8080/website',
+        changeOrigin: true
+    })
+);
+app.use(
+    '/isSameSession',
+    createProxyMiddleware({
+        target:'http://localhost:8080/website',
+        changeOrigin: true
+    })
+);
     // app.use(
     //     '/**',
     //     createProxyMiddleware({

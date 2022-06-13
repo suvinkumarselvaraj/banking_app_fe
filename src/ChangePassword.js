@@ -1,10 +1,23 @@
 
-import React from 'react'
+import React ,{useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import './ChangePassword.css';
 
 function ChangePassword() {
     const navigate = useNavigate();
+    useEffect(()=>{
+        console.log('logg in to check if this is working');
+        fetch('/isSessionPresent',{
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if(data.session == "absent"){
+              navigate('/');}
+            })
+          })
     function handleChangePassword(event){
         event.preventDefault();
         var data = new FormData(event.target);

@@ -2,17 +2,33 @@ import React,{useEffect,useState} from 'react'
 import './TransferAmount.css'
 import { useNavigate } from 'react-router-dom';
 function TransferAmount() {
-    const navigate = useNavigate();
-    const [accounts,setAccounts] = useState([]);
+    const navigate = useNavigate();  
     useEffect(()=>{
-        fetch('/availableCustomers')
+        console.log('logg in to check if this is working');
+        fetch('/isSessionPresent',{
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if(data.session == "absent"){
+                alert("unauthorized access ");
+                navigate('/');
+                return;
+            }
+        else
+        {
+            fetch('/availableCustomers')
             .then(res => res.json())
             .then(data=>{
                 setAccounts(data);
                 console.log(data);
             })
-
+        }
+    })
     },[])
+    const [accounts,setAccounts] = useState([]);
     function handleTransfer(event){
         event.preventDefault();
         var data = new FormData(event.target);
