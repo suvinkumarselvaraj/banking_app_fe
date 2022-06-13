@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react'
-import { act } from 'react-dom/test-utils';
-
-import './Login.css';
-import LoginButton from './LoginButton';
-import OpenAccount from './OpenAccount';
 import { useStateValue } from './StateProvider';
 import { Link, useNavigate } from 'react-router-dom';
+import './Login.css';
 
 function Login() {
     
@@ -43,10 +39,7 @@ function Login() {
                      else{
                     navigate("/home");
                     }   
-                })
-            // }else{
-            //     //create a new session
-                
+                })       
             }
            
         })
@@ -82,7 +75,7 @@ function Login() {
         var userData = {'accountNumber':accountNumber,'password':password};
         if(accountNumber >= 11011 && password.length >=6)
         {
-            fetch('/login', {
+            fetch('/loginuser', {
             method: 'POST', // or 'PUT'   x-www-form-urlencoded
             headers: {
                 'Accept': 'application/json',

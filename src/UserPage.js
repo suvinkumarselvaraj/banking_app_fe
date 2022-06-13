@@ -108,7 +108,7 @@ function UserPage() {
         <button className='userPage__button'>Cash Withdrawal</button>
         </Link>
       </div>
-      <Link to = '/transfere'>
+      <Link to = '/transferamount'>
       <div className = 'service line4'>   
           <div><TransferWithinAStationIcon className='account__icon' style= {{fontSize:40}} /></div>
         <button className='userPage__button'>Transfer Amount</button>

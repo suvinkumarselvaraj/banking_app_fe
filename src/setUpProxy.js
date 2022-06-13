@@ -30,7 +30,7 @@ module.exports = function(app){
     })
 );
  app.use(
-    '/login',
+    '/loginuser',
     createProxyMiddleware({
         target:'http://localhost:8080/website',
         changeOrigin: true
@@ -79,7 +79,7 @@ app.use(
     })
 );
 app.use(
-    '/transactionDetails',
+    '/transactiondetails',
     createProxyMiddleware({
         target:'http://localhost:8080/website',
         changeOrigin: true

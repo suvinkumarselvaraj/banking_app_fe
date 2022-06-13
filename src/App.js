@@ -23,6 +23,7 @@ import ForcePasswordChange from './ForcePasswordChange';
 import TopCustomers from './TopCustomers';
 import Example from './Example';
 import Trans from './Trans';
+import ErrorPage from './ErrorPage';
 function App() {
   return (
     <Router>
@@ -38,14 +39,15 @@ function App() {
         <Route path = '/changepass' element = {<><Header/><ChangePassword /></>} />  
         <Route path = '/maintenance' element = {<><Header/><Maintenance/></>} />
         <Route path = "/transaction" element = {<><Header /><Transactions/></>} />
-        <Route path = "/transfere" element = {<><Header/><TransferAmount/></>} />
+        <Route path = "/transferamount" element = {<><Header/><TransferAmount/></>} />
         <Route path = "/withdraw" element = {<><Header/><Withdraw/></>} />
         <Route path = "/deposit" element= {<><Header/><Deposit/></>} />
         <Route path = "/accountdetails" element = {<><Header/><UserAccount/></>} />
         <Route path = "/home" element = {<><Header/><UserPage/></>} />
         <Route path = "/open" element= {<OpenAccountPage />} />
-        <Route path ="/loginn" element={<Login/>} />
+        <Route path ="/login" element={<Login/>} />
         <Route path = "/" element ={<PreLogin/>} />
+        <Route path = "*" element = {<ErrorPage/>} />
       </Routes>
     </div>
     </Router>
