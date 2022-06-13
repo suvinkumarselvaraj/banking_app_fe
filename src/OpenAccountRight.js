@@ -3,6 +3,7 @@ import './OpenAccountRight.css';
 import { useNavigate } from 'react-router-dom';
 import { useStateValue } from './StateProvider';
 function OpenAccountRight() {
+    
     const navigate = useNavigate();
     const [active_user,dispatch] = useStateValue();
     function handleOpenAccountSubmit(event){

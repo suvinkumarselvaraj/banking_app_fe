@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
 import PreLogin from './PreLogin';
@@ -21,9 +20,8 @@ import ViewTopCustomers from './ViewTopCustomers';
 import ListUsers from './ListUsers';
 import ForcePasswordChange from './ForcePasswordChange';
 import TopCustomers from './TopCustomers';
-import Example from './Example';
-import Trans from './Trans';
 import ErrorPage from './ErrorPage';
+
 function App() {
   return (
     <Router>
