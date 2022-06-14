@@ -33,8 +33,8 @@ function TransferAmount() {
         var amount = data.get("transferAmount");
         console.log(amount);
         var acc1 = data.get("account_number1");
-        var acc2 = data.get("account_number1");
-        if(acc1!==acc2||acc1===''||acc2=='')
+        var acc2 = data.get("account_number2");
+        if(acc1!= acc2||acc1===''||acc2=='')
         {
             alert("account numbers entered doesnt match the record");
             return;

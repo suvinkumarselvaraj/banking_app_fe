@@ -32,12 +32,8 @@ function Header() {
       type: 'Remove_logged_user',
       logged_user: null
     })
-    navigate("/",{
+    navigate("/login",{
       replace:true});  
-    // cookie.remove('session');
-    // cookie.remove('JSESSION');
-    
-  
   }
   return (
     <div className='Header__container'>

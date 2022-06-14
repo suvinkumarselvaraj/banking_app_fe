@@ -78,7 +78,7 @@ function ChangePassword() {
         .then(data =>{
             if(data.oldPasswordCheck === "success")
             {
-                console.log("success");
+                console.log("im hereee");
                 fetch('/changePassword',{
                     method: 'POST',
                     headers:{
@@ -87,7 +87,7 @@ function ChangePassword() {
                     },
                     body: JSON.stringify(pass)
                 })
-                .then(res=>res.json())
+                .then(res=>res.json())  
                 .then(data =>{
                     if(data.insertion === "success"){
                         console.log("success");
