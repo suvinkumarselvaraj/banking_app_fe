@@ -61,38 +61,27 @@ function ChangePassword() {
             return;
         }
 
-
         //db connection to check the old password
-
         const pass = {'accountNumber':sessionStorage.getItem("accountNo").toString(), 'oPass':oPass,'nPass':pass1};
-
-        fetch('/checkPassword',{
-            method:'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type': 'application/json'
+        async function checkPass(){
+            const response = await fetch('/checkPassword',{
+                method:'POST',
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type': 'application/json'
             },
             body: JSON.stringify(pass)
         })
-        .then(res => res.json())
-        .then(data =>{
-            if(data.oldPasswordCheck === "success")
+            const resp = await response.json();
+            return resp;
+        } 
+        checkPass().then(data =>{
+            if(data.oldPasswordCheck == "success")
             {
-                console.log("im hereee");
-                fetch('/changePassword',{
-                    method: 'POST',
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'     
-                    },
-                    body: JSON.stringify(pass)
-                })
-                .then(res=>res.json())  
-                .then(data =>{
-                    if(data.insertion === "success"){
-                        console.log("success");
-                    }
-                    else
+                changePass().then(data =>{
+                    if(data.insertion == "success"){
+                        console.log('success');
+                    } else
                     if(data.insertion === "failure")
                     {   
                         console.log(data.insertion);
@@ -100,34 +89,27 @@ function ChangePassword() {
                     }
                     else
                     if(data.status === "success" )
-                    alert("successful");
-                    navigate("/home",{replace:true});
-                   
+                    {
+                        alert("successful");
+                        navigate("/home",{replace:true});
+                    }
                 })
-            }
-            else{
-                alert("Old password is incorrect. Please try again");
+            }else{
+                alert('Old password does not match the record');
             }
         })
-        // fetch('http://localhost:8080/banking_app/changePassword',{
-        //     method: 'POST', // or 'PUT'
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded'
-        //     },    
-        //     body: JSON.stringify(pass)
-        // })
-        //     .then(res => res.json())
-        //     .then(data =>{
-        //         console.log(data);
-        //         if(data.status === "success"){
-        //             alert('successful');
-        //             navigate("/home");
-        //         }
-        //         else{
-        //             alert("your old password doesn't match the current password. Try again");
-        //             return;
-        //         }
-        //     })      
+        async function changePass(){
+            const response = await fetch('/changePassword',{
+                method:'POST',
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(pass)
+            })
+            const resp = await response.json();
+            return resp;
+        }
     }
   return (
     <div className='ChangePassword__container'>
