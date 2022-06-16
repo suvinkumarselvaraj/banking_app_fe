@@ -9,16 +9,21 @@ function OpenAccountPage() {
   const navigate = useNavigate()
   useEffect(()=>{
     console.log('logg in to check if this is working');
-    fetch('/isSessionPresent',{
+    
+    async function isSession(){
+      const response = await fetch('/isSessionPresent',{
         method: 'GET',
         credentials: 'include'
+      });
+      const resp = await response.json();
+      return resp;
+    }
+    isSession().then(data =>{
+      if(data.session == "present"){
+        navigate('/home');
+      }
     })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data)
-        if(data.session == "present"){
-          navigate('/home');}
-        })
+
       },[])
   return (
     <div className='OpenAccountPage__container'>
