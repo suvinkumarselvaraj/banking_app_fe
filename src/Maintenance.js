@@ -3,17 +3,22 @@ import {useNavigate} from 'react-router-dom'
 function Maintenance() {
     const navigate = useNavigate([]);
     useEffect(()=>
-    {fetch('/isSessionPresent',{
-      method: 'GET',
-      credentials: 'include'
+    {
+      async function isSession(){
+        const response = await fetch('/isSessionPresent',{
+          method: 'GET',
+          credentials: 'include'
         })
-      .then(res => res.json())
-      .then(data => {
-      console.log(data)
-      if(data.session == "absent"){
-          navigate('/loginn');
+
+        const resp = response.json();
+        return resp;
       }
-    })
+      isSession().then(data =>{
+        if(data.session == "absent"){
+          navigate('/login');
+        }
+      })
+   
 },[])
   return (
     <div className='Maintenance__container'>Maintenance

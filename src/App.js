@@ -35,7 +35,7 @@ function App() {
         <Route path = '/admin/home' element = {<><AdminHeader /><AdminPage/></>} />
         <Route path = '/admin' element = {<Admin />} />
         <Route path = '/changepass' element = {<><Header/><ChangePassword /></>} />  
-        <Route path = '/maintenance' element = {<><Header/><Maintenance/></>} />
+        <Route path = '/maintenance' element = {<><Header /><Maintenance/></>} />
         <Route path = "/transaction" element = {<><Header /><Transactions/></>} />
         <Route path = "/transferamount" element = {<><Header/><TransferAmount/></>} />
         <Route path = "/withdraw" element = {<><Header/><Withdraw/></>} />
