@@ -23,7 +23,7 @@ module.exports = function(app){
     })
 );
  app.use(
-    '/changePassword',
+    '/changePassword',  
     createProxyMiddleware({
         target:'http://localhost:8080/website',
         changeOrigin: true

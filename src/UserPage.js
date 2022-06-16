@@ -1,9 +1,7 @@
 import React,{useEffect} from 'react'
-import { useStateValue } from './StateProvider'
+
 import './UserPage.css';
 import {Link,useNavigate} from 'react-router-dom';
-import Cookies from 'js-cookie'; 
-import { integerPropType } from '@mui/utils';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SavingsIcon from '@mui/icons-material/Savings';
 import AtmIcon from '@mui/icons-material/Atm';
@@ -11,14 +9,14 @@ import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStati
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import InfoIcon from '@mui/icons-material/Info';
 import PasswordIcon from '@mui/icons-material/Password';
-import { NavigateBefore } from '@mui/icons-material';
+
 
 function UserPage() {
   const navigate = useNavigate();
   // sessionStorage.getItem('accountNo').toString()
     useEffect(()=>
     { 
-      fetch('/isSessionPresent',{
+     let call = fetch('/isSessionPresent',{
       method: 'GET',
       credentials: 'include'
         })
@@ -64,10 +62,12 @@ function UserPage() {
                 if(data.status === "success"){
                 console.log("succesfully inserted");
                 sessionStorage.removeItem("balance");
-                sessionStorage.setItem("balance",data.getItem("balance")); 
+                sessionStorage.setItem("balance",data.balance); 
                 navigate('/forcePasswordChange');
               }else
-              alert("something wrong, try again later");
+            {
+              console.log('not reached yet');
+            }
             })
             .catch(err => console.log(err));
           }

@@ -58,15 +58,13 @@ function ViewTopCustomers() {
             }
        
         }
-       
-
     
 
   return (
     <div className='ViewTopCustomer__container'>
         <p>{customers.length} records found</p>
         <div className='findTopCx' >
-            <p>Enter the number of records to be found</p>
+            <p>Enter the number of records to be found based on their balance</p>
             <form onSubmit={sortCustomers}>
             <input type = "number" min = "0" max = {customers.length}  onChange={e => setDesiredNumber(e.target.value)}></input>
             <button className='sort'>Go</button>

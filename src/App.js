@@ -21,7 +21,7 @@ import ListUsers from './ListUsers';
 import ForcePasswordChange from './ForcePasswordChange';
 import TopCustomers from './TopCustomers';
 import ErrorPage from './ErrorPage';
-
+  
 function App() {
   return (
     <Router>
@@ -42,7 +42,7 @@ function App() {
         <Route path = "/deposit" element= {<><Header/><Deposit/></>} />
         <Route path = "/accountdetails" element = {<><Header/><UserAccount/></>} />
         <Route path = "/home" element = {<><Header/><UserPage/></>} />
-        <Route path = "/open" element= {<OpenAccountPage />} />
+        <Route path = "/openaccount" element= {<OpenAccountPage />} />
         <Route path ="/login" element={<Login/>} />
         <Route path = "/" element ={<PreLogin/>} />
         <Route path = "*" element = {<ErrorPage/>} />

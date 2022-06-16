@@ -5,7 +5,7 @@ function OpenAccount() {
   
   return (
     <div className='OpenAccount__container'>
-        <Link to = '/open'>
+        <Link to = '/openaccount'>
         <button type='button' className='OpenAccount__button'>
                 Open Account
             </button>
