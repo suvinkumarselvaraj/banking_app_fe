@@ -2,7 +2,7 @@ import { JavascriptTwoTone } from '@mui/icons-material';
 import React from 'react'
 import './Admin.css'
 import {useNavigate} from 'react-router-dom';
-import { useStateValue } from './StateProvider';
+import { useStateValue } from '../../StateProvider';
 
 function Admin() {
     const [ active_admin ,dispatch] = useStateValue();
@@ -39,29 +39,7 @@ function Admin() {
             }
             else
             alert("login unsuccessful. check your credentials");
-        })
-        // fetch('/admin/login',{
-        //     method: 'POST',
-        //     headers:{
-        //         'Accept' : 'application/json',
-        //         'Content-Type' : 'application/json'
-        //     },
-        //     body: JSON.stringify(datas)
-        // })
-        // .then(res => res.json())
-        // .then(data => {
-        //     console.log(data);
-        //     if(data.status === "success")
-        //     {  
-        //         dispatch({
-        //         type: 'Add_logged_admin',
-        //         logged_admin:data?.name
-        //     });
-        //         navigate('/admin/home');
-        //     }
-        //     else
-        //     alert("login unsuccessful. check your credentials");
-        // }) 
+        }) 
     }
   return (
     <div className='Admin__container'>

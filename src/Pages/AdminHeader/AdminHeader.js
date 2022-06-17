@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStateValue } from './StateProvider'
+import { useStateValue } from '../../StateProvider'
 import {useNavigate} from 'react-router-dom'
 function AdminHeader() {
     const[{active_admin},dispatch] = useStateValue();

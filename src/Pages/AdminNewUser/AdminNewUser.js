@@ -1,29 +1,25 @@
-import React, { useState } from 'react';
-import './OpenAccountRight.css';
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useStateValue } from './StateProvider';
-function OpenAccountRight() {
-    const [userInfo,setUserInfo] = useState({});
+import { useStateValue } from '../../StateProvider';
+function AdminNewUser() {
     const navigate = useNavigate();
     const [active_user,dispatch] = useStateValue();
     function handleOpenAccountSubmit(event){
         event.preventDefault();
         var data = new FormData(event.target);
-        var name = data.get("username");
-        var phone = data.get("phone").toString();
-        var password1 = data.get("password1");
-        var password2 = data.get("password2");
-
-        //username validation
+        var name = data.get('username');
+        var phone = data.get('phone');
+        var password1 = data.get('password1');
+        var password2 = data.get('password2');
         if(name==='' || password1 === '' || password2 === ''||phone === '')
         {   
             alert("Empty field value");
             return;
         }
-        for(var i = 0; i<name.length;i++){  
+        for(var i = 0; i<name.length;i++){
             if((name[i]>='a'&&name[i]<='z')||(name[i]>='A'&&name[i]<='Z') )
             continue;
-            alert('Incorrect username - username must not contain anything other than alphabets (a-z or A-Z)');
+            alert('Incorrect username- username must not contain anything other than alphabets (a-z or A-Z)');
             return;
         }
         //password validation
@@ -50,45 +46,64 @@ function OpenAccountRight() {
             else
             if(password1[i]>=0 && password1[i]<=9)
             nCase++;
+
         }
         if(uCase<2 || lCase<2 || nCase<2) 
         {
             alert("Password must contain atleast 2 upper case characters, 2 lower case characters and 2 integers");
             return;
         }
-        // alert("successful");
+
         const userData = {'username':name, 'phone':phone, 'password':password1}
-        async function openaccount(){
+
+        async function open(){
             const response = await fetch('/openAccount',{
                 method: 'POST',
                 headers:{
-                    'Accept':'application/json',
+                    'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(userData),
+                body: JSON.stringify(userData)
             })
             const resp = await response.json();
-            console.log(resp);
-            sessionStorage.setItem("username",resp.username);
-            sessionStorage.setItem("accountNo",resp.accountNo);
-            sessionStorage.setItem("phoneNo",resp.phoneNumber);
-            sessionStorage.setItem("balance",resp.balance);
-            sessionStorage.setItem("customerId",resp.customerId);
             return resp;
         }
-        
-        async function opening(){
-            console.log('hello');     
-            var type = "Opening";
-            var initialAmount = 10000;
-            const datas = {
-            'accountNumber' : sessionStorage.getItem("accountNo"),
-            'customerId' : sessionStorage.getItem("customerId"),
-            'amount' :initialAmount.toString(),
-            'balance': sessionStorage.getItem("balance"),
-            'transactionType' : type
+        open().then(data =>{
+            if(data.isExistingUser == "existing"){
+                alert("You have an account existing with the phone number you entered")
+            }else{
+                console.log("inside opening area");
+                var type = "Opening";
+                sessionStorage.setItem("username",data.username);
+                sessionStorage.setItem("accountNo",data.accountNo);
+                sessionStorage.setItem("phoneNo",data.phoneNumber);
+                sessionStorage.setItem("balance",data.balance);
+                sessionStorage.setItem("customerId",data.customerId);
+                var initialAmount = 10000;
+                const datas = {
+                'accountNumber' : sessionStorage.getItem("accountNo"),
+                'customerId' : sessionStorage.getItem("customerId"),
+                'amount' :initialAmount.toString(),
+                'balance': sessionStorage.getItem("balance"),
+                'transactionType' : type
+                }
+                transaction(datas).then(data =>{
+                    if(data.status == "success"){
+                        console.log("succesfully inserted");
+                        sessionStorage.removeItem("balance");
+                        sessionStorage.setItem("balance",data.balance);
+                        alert("Please note your account number for further transactions. "+sessionStorage.getItem("accountNo")+" Opening successful");
+                        navigate('/admin/home',{replace:true});
+                    }
+                    else{
+                        alert('An account already exists with the phone number mentioned')
+                    }
+                })
+                .catch(err => console.log(err))
             }
-
+        })
+        .catch(err => console.log(err))
+        async function transaction(datas){
             const response = await fetch('/transactions',{
                 method: 'POST',
                 headers:{
@@ -96,43 +111,17 @@ function OpenAccountRight() {
                     'Content-Type' : 'application/json'
                 },
                 body: JSON.stringify(datas)
-            })
+                })
             const resp = await response.json();
             return resp;
         }
 
-        openaccount().then(data =>{
-            if(data.isExistingUser == "existing")
-            {
-                alert("you have an account existing with the phone number you entered");
-            }else{
-                opening().then(data =>{
-                    console.log('im here');
-                    if(data.status == "success"){
-                        sessionStorage.removeItem("balance");
-                        sessionStorage.setItem("balance",data.balance);
-                        alert("Opening successful");
-                        dispatch({
-                            type:'Add_logged_user',
-                            active_user:sessionStorage.getItem("username")
-                        })
-                        navigate('/home',{replace:true});   
-                    }else{
-                        alert('something went wrong. try again later');
-                    }
-                })
-                .catch(err =>{
-                    console.log(err);
-                })
-            }
-        }).catch(err => {
-            console.log(err);
-        })
-
-
     }
   return (
-    <div className='OpenAccountRight__containter'>
+    <div>
+        <div className='information'>
+            <p>Add new user</p>
+        </div>
         <form onSubmit={handleOpenAccountSubmit}>
         <div className='line11'>
         <input className = "username_input uinput" type="text" placeholder="full name" name = "username"></input>
@@ -165,4 +154,4 @@ function OpenAccountRight() {
   )
 }
 
-export default OpenAccountRight
+export default AdminNewUser

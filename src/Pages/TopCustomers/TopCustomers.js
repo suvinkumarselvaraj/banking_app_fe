@@ -1,5 +1,5 @@
 import React ,{useState,useEffect} from 'react'
-import { useStateValue } from './StateProvider';
+import { useStateValue } from '../../StateProvider';
 
 function TopCustomers() {
     const [sorting_range,dispatch] = useStateValue();
@@ -60,7 +60,7 @@ function TopCustomers() {
             </div> 
         </div>   
     {sortedCustomers?.map(account => (
-              <div className="row2__container">
+            <div className="row2__container">
                 <div className="field1 field">
                 {account?.customer_id}
             </div>

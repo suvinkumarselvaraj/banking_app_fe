@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react'
-import Header from './Header'
-import OpenAccountLeft from './OpenAccountLeft'
-import OpenAccountRight from './OpenAccountRight'
+import Header from '../Headers/Header'
+import OpenAccountLeft from './OpenAccountLeft/OpenAccountLeft'
+import OpenAccountRight from './OpenAccountRight/OpenAccountRight'
 import './OpenAccountPage.css';
 import {useNavigate} from 'react-router-dom'
 

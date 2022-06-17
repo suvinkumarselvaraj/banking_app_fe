@@ -1,26 +1,26 @@
 import './App.css';
 import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
-import PreLogin from './PreLogin';
-import Login from './Login';
-import OpenAccountPage from './OpenAccountPage';
-import Header from './Header';
-import UserPage from './UserPage';
-import UserAccount from './UserAccount';
-import Deposit from './Deposit';
-import Withdraw from './Withdraw';
-import TransferAmount from './TransferAmount';
-import Transactions from './Transactions';
-import Maintenance from './Maintenance';
-import ChangePassword from './ChangePassword';
-import Admin from './Admin';
-import AdminHeader from './AdminHeader';
-import AdminPage from './AdminPage';
-import AdminNewUser from './AdminNewUser';
-import ViewTopCustomers from './ViewTopCustomers';
-import ListUsers from './ListUsers';
-import ForcePasswordChange from './ForcePasswordChange';
-import TopCustomers from './TopCustomers';
-import ErrorPage from './ErrorPage';
+import PreLogin from '../PreLogin/PreLogin';
+import Login from '../Login/Login';
+import OpenAccountPage from '../OpenAccount/OpenAccountPage';
+import Header from '../Headers/Header';
+import UserPage from '../UserPage/UserPage';
+import UserAccount from '../UserAccount/UserAccount';
+import Deposit from '../Deposit/Deposit';
+import Withdraw from '../Withdraw/Withdraw';
+import TransferAmount from '../TransferAmount/TransferAmount';
+import Transactions from '../Transactions/Transactions';
+import Maintenance from '../../Maintenance';
+import ChangePassword from '../ChangePassword/ChangePassword';
+import Admin from '../Admin/Admin';
+import AdminHeader from '../AdminHeader/AdminHeader';
+import AdminPage from '../AdminPage/AdminPage';
+import AdminNewUser from '../AdminNewUser/AdminNewUser';
+import ViewTopCustomers from '../AdminPage/AdminPage';
+import ListUsers from '../ListUsers/ListUsers';
+import ForcePasswordChange from '../ForcePasswordChange/ForcePasswordChange';
+import TopCustomers from '../TopCustomers/TopCustomers';
+import ErrorPage from '../../ErrorPage';
   
 function App() {
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import ChangePassword from './ChangePassword'
+import ChangePassword from '../ChangePassword/ChangePassword'
 
 
 function ForcePasswordChange() {

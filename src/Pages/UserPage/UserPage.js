@@ -29,12 +29,14 @@ function UserPage() {
         navigate('/login');
         else{
           checkTranasaction().then(data =>{
-            if(data.maintenance == "success"){
-              sessionStorage.removeItem("balance");
-              sessionStorage.setItem("balance",data.getItem("balance"));
+            console.log(data);
+            if(data.maintenance == "true"){
+              // sessionStorage.removeItem("balance");
+              // sessionStorage.setItem("balance",data.balance);
               if(data.status5 == "true")
-              navigate('/forcePasswordChange');
+                navigate('/forcePasswordChange');
               if(data.status10 == "true"){
+                console.log('inside 10');
                 var type = "Maintenance fee";
                 var amount = "100";
                 var transfer_data = {
@@ -45,6 +47,7 @@ function UserPage() {
                   'transactionType' : type
                 }
                 maintenanceFee(transfer_data).then(data =>{
+                  console.log(data);
                   if(data.status == "success"){
                     console.log("succesfully inserted");
                     sessionStorage.removeItem("balance");
@@ -79,6 +82,7 @@ function UserPage() {
           body: JSON.stringify(transfer_data)
         })
         const resp = await response.json();
+        return resp;
       }    
   },[])
      

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useStateValue } from './StateProvider';
+import { useStateValue } from '../../StateProvider';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -10,40 +10,49 @@ function Login() {
         console.log('hello');
         //even before loading the login page, check whether exists a session
         //call in a api to check if the session exists
-        fetch('/isSessionPresent',{
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
+        async function isSession(){
+            const response = await fetch('/isSessionPresent',{
+                method: 'GET',
+                credentials: 'include'
+            })
+            const resp = await response.json();
+            return resp;
+        }
+        isSession().then(data =>{
             if(data.session == "present"){
-                //check whether the session is same
-                fetch('/isSameSession',{
-                    method: 'GET',
-                    credentials: 'include'
-                })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    if(data.isValidUser == "failure")
-                    //invalid the session and log the user out
-                   {
-                    fetch('/logout',{
-                    method: 'GET',
-                    credentials: 'include'
-                   }).then(res => res.json())
-                   .then(data => console.log("successfully logged the user out and cleared the sesion"))
-                   .catch(err => console.log(err));
+                isSameSession().then(data=>{
+                    if(data.isValidUser == "failure"){
+                        logout().then(data=>{
+                            console.log("logged the user out succcessfully");
+                        })
+                    }else{
+                        navigate('/home')
                     }
-                     else{
-                    navigate("/home");
-                    }   
-                })       
+                })
+                .catch(err=> console.log(err))
             }
-           
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
+
+        async function logout(){
+            const response = await fetch('/logout',{
+                method: 'GET',
+                credentials: 'include'
+            })
+            const resp = await response.json();
+            return resp;
+        }
+
+        async function isSameSession(){
+            const response = await fetch('/isSameSession',{
+                method: 'GET',
+                credentials: 'include'
+            })
+            const resp = await response.json();
+            return resp;
+        }
+
+       
         //if the session exists then check whether if the session id incoming is same 
         //if same, then navigate the user to the home page
         //if different, log the user out and invalidate the session
@@ -92,6 +101,7 @@ function Login() {
                   return;
               }
               else{
+                console.log(data.balance);
                   sessionStorage.setItem("username",data.username);
                   sessionStorage.setItem("accountNo",accountNumber);
                   sessionStorage.setItem("phoneNo",data.phoneNo);

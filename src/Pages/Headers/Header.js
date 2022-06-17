@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './Header.css'
-import {useStateValue} from './StateProvider';
+import {useStateValue} from '../../StateProvider';
 import { useCookies } from 'react-cookie';
 import cookie from 'react-cookies'
 

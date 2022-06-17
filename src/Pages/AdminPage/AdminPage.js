@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useStateValue } from './StateProvider'
+import { useStateValue } from '../../StateProvider'
 import { Link } from 'react-router-dom';
 import './AdminPage.css'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -7,10 +7,7 @@ import PageviewOutlinedIcon from '@mui/icons-material/PageviewOutlined';
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined';
 function AdminPage() {
     const [{active_admin},dispatch] = useStateValue();
-    useEffect(()=>{
-
-    })
-  return (
+    return (
     <div className='AdminPage__container'>
         <div className='adminLine1'>
         <strong>Welcome {active_admin.toUpperCase()}</strong>

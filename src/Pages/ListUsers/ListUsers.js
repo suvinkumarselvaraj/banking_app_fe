@@ -17,13 +17,6 @@ function ListUsers() {
         .catch(err =>{
             console.log(err);
         })
-        // fetch('/allUsers')
-        // .then(res=>res.json())
-        // .then(data=>{
-            
-        //         console.log(data);
-        //         setCustomers(data);
-        // })
     },[])
     
   return (
