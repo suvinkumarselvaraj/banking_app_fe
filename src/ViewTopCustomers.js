@@ -8,17 +8,19 @@ import { useNavigate } from 'react-router-dom';
 function ViewTopCustomers() {
     const navigate = useNavigate();
     const [sorting_range, dispatch] = useStateValue();
-
     const [counts,setCount] = useState(0);
     const [desiredNumber, setDesiredNumber] = useState(0);
     const [customers, setCustomers] = useState([]);
     const [sortedCustomers, setSortedCustomers] = useState([]);
+
     useEffect(()=>{
-        fetch('/allUsers')
-        .then(res=>res.json())
-        .then(data=>{
-                console.log(data);
-                setCustomers(data);
+        async function listUsers(){
+            const response = await fetch('/allUsers');
+            const resp = await response.json();
+            return resp;
+        }
+        listUsers().then(data =>{
+            setCustomers(data);
         })
     },[])
     function compare(cx1, cx2){

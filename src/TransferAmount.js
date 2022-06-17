@@ -1,30 +1,35 @@
 import React,{useEffect,useState} from 'react'
 import './TransferAmount.css'
 import { useNavigate } from 'react-router-dom';
+import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
 function TransferAmount() {
     const navigate = useNavigate();  
      useEffect(()=>{
         console.log('logg in to check if this is working');
-        fetch('/isSessionPresent',{
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            if(data.session == "absent"){
-                navigate('/');
-            }
-        else
-        {
-            fetch('/availableCustomers')
-            .then(res => res.json())
-            .then(data=>{
-                setAccounts(data);
-                console.log(data);
+        async function isSession(){
+            const response = await fetch('/isSessionPresent',{
+                method: 'GET',
+                credentials: 'include'
             })
+            const resp = await response.json();
+            return resp;
+            }
+            isSession().then(data =>{
+              if(data.session == "absent")
+              navigate('/');
+              else
+              {
+                listCustomers().then(data =>{
+                    setAccounts(data);
+                })
+              }
+            }
+        )
+        async function listCustomers(){
+            const response = await fetch('/availableCustomers')
+            const resp = await response.json()
+            return resp;
         }
-    })
     },[])
     const [accounts,setAccounts] = useState([]);
     function handleTransfer(event){

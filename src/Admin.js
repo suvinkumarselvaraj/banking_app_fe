@@ -15,17 +15,20 @@ function Admin() {
         var adminEmail = data.get('admin_email');
         var adminPassword = data.get('admin_password');
         var datas = {'adminEmail':adminEmail,'adminPassword':adminPassword};
-        fetch('/admin/login',{
-            method: 'POST',
-            headers:{
-                'Accept' : 'application/json',
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify(datas)
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
+
+        async function adminLogin(){
+            const response = await fetch('/admin/login',{
+                method: 'POST',
+                headers:{
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json'    
+                },
+                body: JSON.stringify(datas)
+            })
+            const resp = await response.json();
+            return resp;
+        }
+        adminLogin().then(data =>{
             if(data.status === "success")
             {  
                 dispatch({
@@ -36,7 +39,29 @@ function Admin() {
             }
             else
             alert("login unsuccessful. check your credentials");
-        }) 
+        })
+        // fetch('/admin/login',{
+        //     method: 'POST',
+        //     headers:{
+        //         'Accept' : 'application/json',
+        //         'Content-Type' : 'application/json'
+        //     },
+        //     body: JSON.stringify(datas)
+        // })
+        // .then(res => res.json())
+        // .then(data => {
+        //     console.log(data);
+        //     if(data.status === "success")
+        //     {  
+        //         dispatch({
+        //         type: 'Add_logged_admin',
+        //         logged_admin:data?.name
+        //     });
+        //         navigate('/admin/home');
+        //     }
+        //     else
+        //     alert("login unsuccessful. check your credentials");
+        // }) 
     }
   return (
     <div className='Admin__container'>

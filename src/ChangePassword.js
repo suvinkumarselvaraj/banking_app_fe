@@ -7,17 +7,21 @@ function ChangePassword() {
     const navigate = useNavigate();
     useEffect(()=>{
         console.log('logg in to check if this is working');
-        fetch('/isSessionPresent',{
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            if(data.session == "absent"){
-              navigate('/');}
+
+        async function isSession(){
+            const response = await fetch('/isSessionPresent',{
+                method: 'GET',
+                credentials: 'include'
             })
-          })
+            const resp = await response.json();
+            return resp;
+        }
+        
+        isSession().then(data =>{
+            if(data.session == "absent")
+            navigate('/');
+        })
+    })
     function handleChangePassword(event){
         event.preventDefault();
         var data = new FormData(event.target);

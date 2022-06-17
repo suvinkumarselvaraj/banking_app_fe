@@ -4,17 +4,19 @@ import { useNavigate } from 'react-router-dom';
 function Deposit() {
   const navigate = useNavigate();
   useEffect(()=>{
-    console.log('logg in to check if this is working');
-    fetch('/isSessionPresent',{
-        method: 'GET',
-        credentials: 'include'
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data)
-        if(data.session == "absent"){
-          navigate('/');}
-        })
+      console.log('logg in to check if this is working');
+      async function isSession(){
+      const response = await fetch('/isSessionPresent',{
+          method: 'GET',
+          credentials: 'include'
+      })
+      const resp = await response.json();
+      return resp;
+      }
+      isSession().then(data =>{
+        if(data.session == "absent")
+        navigate('/');
+      })
       },[])
   function handleSubmit(event){
     event.preventDefault();

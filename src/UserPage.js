@@ -15,69 +15,72 @@ function UserPage() {
   const navigate = useNavigate();
   // sessionStorage.getItem('accountNo').toString()
     useEffect(()=>
-    { 
-     let call = fetch('/isSessionPresent',{
-      method: 'GET',
-      credentials: 'include'
+    {
+      async function isSession(){
+        const response = await fetch('/isSessionPresent',{
+          method: 'GET',
+          credentials: 'include'
         })
-      .then(res => res.json())
-      .then(data => {
-      console.log(data)
-      if(data.session == "absent"){
-          navigate('/loginn');
+        const resp = await response.json();
+        return resp;
       }
-      else
-      {
-        fetch('/checktransactions?acc='+sessionStorage.getItem('accountNo').toString())
-        .then(res => res.json())
-        .then(data=>{
-          console.log(data);
-            if(data.maintenance === "success") {
-            sessionStorage.removeItem("balance");
-            sessionStorage.setItem("balance",data.getItem("balance"));
-          }
-          if(data.status5 == "true") {
-            navigate('/forcePasswordChange');
-          } else if(data.status10 == "true"){
-            var type = "Maintenance fee";
-            var amount = "100";
-            var transfer_data = {
-              'accountNumber' : sessionStorage.getItem("accountNo"),
-              'customerId' : sessionStorage.getItem("customerId"),
-              'amount' : amount,
-              'balance': sessionStorage.getItem("balance"),
-              'transactionType' : type
+      isSession().then(data =>{
+        if(data.session == "absent")
+        navigate('/login');
+        else{
+          checkTranasaction().then(data =>{
+            if(data.maintenance == "success"){
+              sessionStorage.removeItem("balance");
+              sessionStorage.setItem("balance",data.getItem("balance"));
+              if(data.status5 == "true")
+              navigate('/forcePasswordChange');
+              if(data.status10 == "true"){
+                var type = "Maintenance fee";
+                var amount = "100";
+                var transfer_data = {
+                  'accountNumber' : sessionStorage.getItem("accountNo"),
+                  'customerId' : sessionStorage.getItem("customerId"),
+                  'amount' : amount,
+                  'balance': sessionStorage.getItem("balance"),
+                  'transactionType' : type
                 }
-            fetch("/maintenancefee",{
-              method: 'POST',
-              headers:{
-                  'Accept' : 'application/json',
-                  'Content-Type' : 'application/json'
-              },
-              body: JSON.stringify(transfer_data)
-              })
-              .then(res => res.json())
-              .then(data => {
-                console.log(data);
-                if(data.status === "success"){
-                console.log("succesfully inserted");
-                sessionStorage.removeItem("balance");
-                sessionStorage.setItem("balance",data.balance); 
-                navigate('/forcePasswordChange');
-              }else
-            {
-              console.log('not reached yet');
+                maintenanceFee(transfer_data).then(data =>{
+                  if(data.status == "success"){
+                    console.log("succesfully inserted");
+                    sessionStorage.removeItem("balance");
+                    sessionStorage.setItem("balance",data.balance); 
+                    navigate('/forcePasswordChange');
+                  }else{
+                    console.log('not reached yet');
+                  }
+                })
+                .catch(err => console.log(err));
+              }
             }
-            })
-            .catch(err => console.log(err));
-          }
-        })
-        .catch(err => console.log(err));
+          })
+          .catch(err=>{
+            console.log(err);
+          })
+        }
+      })
+      .catch(err => console.log(err))
+      async function checkTranasaction(){
+        const response = await fetch('/checktransactions?acc='+sessionStorage.getItem('accountNo').toString());
+        const resp = await response.json();
+        return resp;
       }
-       })
-
-    
-    },[])
+      async function maintenanceFee(transfer_data){
+        const response = await fetch('/maintenancefee',{
+          method: 'POST',
+          headers:{
+              'Accept' : 'application/json',
+              'Content-Type' : 'application/json'
+          },
+          body: JSON.stringify(transfer_data)
+        })
+        const resp = await response.json();
+      }    
+  },[])
      
   //const [{active_user},dispatch] = useStateValue();
   return (

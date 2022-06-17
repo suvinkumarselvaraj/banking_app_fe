@@ -55,123 +55,132 @@ function AdminNewUser() {
         }
 
         const userData = {'username':name, 'phone':phone, 'password':password1}
-        fetch('/openAccount', {
-        method: 'POST', // or 'PUT'
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },    
-        body: JSON.stringify(userData),
+
+        async function open(){
+            const response = await fetch('/openAccount',{
+                method: 'POST',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+            const resp = await response.json();
+            return resp;
+        }
+        open().then(data =>{
+            if(data.isExistingUser == "existing"){
+                alert("You have an account existing with the phone number you entered")
+            }else{
+                console.log("inside opening area");
+                var type = "Opening";
+                sessionStorage.setItem("username",data.username);
+                sessionStorage.setItem("accountNo",data.accountNo);
+                sessionStorage.setItem("phoneNo",data.phoneNumber);
+                sessionStorage.setItem("balance",data.balance);
+                sessionStorage.setItem("customerId",data.customerId);
+                var initialAmount = 10000;
+                const datas = {
+                'accountNumber' : sessionStorage.getItem("accountNo"),
+                'customerId' : sessionStorage.getItem("customerId"),
+                'amount' :initialAmount.toString(),
+                'balance': sessionStorage.getItem("balance"),
+                'transactionType' : type
+                }
+                transaction(datas).then(data =>{
+                    if(data.status == "success"){
+                        console.log("succesfully inserted");
+                        sessionStorage.removeItem("balance");
+                        sessionStorage.setItem("balance",data.balance);
+                        alert("Please note your account number for further transactions. "+sessionStorage.getItem("accountNo")+" Opening successful");
+                        navigate('/admin/home',{replace:true});
+                    }
+                    else{
+                        alert('An account already exists with the phone number mentioned')
+                    }
+                })
+                .catch(err => console.log(err))
+            }
         })
-        .then(res => res.json())
-        .then(data => {  
-          console.log(data.isExistingUser);
-    //       if(data.isExistingUser === "existing")
-    //       {
-    //           console.log("hello");
-    //           alert("There is already an existing user with the phone number given.");
-    //           return;
-    //       }
-    //       else{
-    //         console.log("inside opening area");
-    //         var type = "Opening";
-    //         var username = data.username;
-    //         var accountNumber = data.accountNumber;
-    //         var phoneNo = data.phoneNo;
-    //         var balance = data.balance;
-    //         var customerId = data.customerId;
-    //         var initialAmount = 10000;
-    //         const datas = {
-    //         // 'accountNumber' : accountNumber.toString(),
-    //         // 'customerId' :customerId.toString(),
-    //         // 'amount' :initialAmount.toString(),
-    //         // 'balance':balance.toString(),
-    //         // 'transactionType' : type
-    //         'accountNumber' : sessionStorage.getItem("accountNo"),
-    //         'customerId' : sessionStorage.getItem("customerId"),
-    //         'amount' :initialAmount.toString(),
-    //         'balance': sessionStorage.getItem("balance"),
-    //         'transactionType' : type
-    //         }
-    //         console.log('about to call transactions');
-    //         fetch('/transactions',{
-    //         method: 'POST',
-    //         headers:{
-    //             'Accept':'application/json',
-    //             'Content-Type' : 'application/json'
-    //         },
-    //         body: JSON.stringify(datas)
-    //         })
-    //     .then(res => res.json())
-    //     .then(data =>{
-    //         if(data.status === "success"){
-    //             console.log("succesfully inserted");
-    //             alert("Opening successful");
-    //             navigate('/admin/home')
-    //           }else
-    //           alert("something wrong, try again later");
-    //     })   
-    //       }
-           
-    //   })
-    //   .catch((error)=>{
-    //       console.log(error);
-    //   })
-    if(data.isExistingUser === "existing")
-    {
-        console.log("hAAAAAello");
-        alert("you have an account existing with the phone number you entered.");
-    }
-    else
-    {
-      console.log("inside opening area");
-      var type = "Opening";
-      sessionStorage.setItem("username",data.username);
-      sessionStorage.setItem("accountNo",data.accountNo);
-      sessionStorage.setItem("phoneNo",data.phoneNumber);
-      sessionStorage.setItem("balance",data.balance);
-      sessionStorage.setItem("customerId",data.customerId);
-      var initialAmount = 10000;
-      const datas = {
-      'accountNumber' : sessionStorage.getItem("accountNo"),
-      'customerId' : sessionStorage.getItem("customerId"),
-      'amount' :initialAmount.toString(),
-      'balance': sessionStorage.getItem("balance"),
-      'transactionType' : type
-      }
+        .catch(err => console.log(err))
+        async function transaction(datas){
+            const response = await fetch('/transactions',{
+                method: 'POST',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(datas)
+                })
+            const resp = await response.json();
+            return resp;
+        }
+//         fetch('/openAccount', {
+//         method: 'POST', // or 'PUT'
+//         headers: {
+//             'Accept': 'application/json',
+//             'Content-Type': 'application/json'
+//         },    
+//         body: JSON.stringify(userData),
+//         })
+//         .then(res => res.json())
+//         .then(data => {  
+//           console.log(data.isExistingUser);
+//     if(data.isExistingUser === "existing")
+//     {
+//         console.log("hAAAAAello");
+//         alert("you have an account existing with the phone number you entered.");
+//     }
+//     else
+//     {
+//       console.log("inside opening area");
+//       var type = "Opening";
+//       sessionStorage.setItem("username",data.username);
+//       sessionStorage.setItem("accountNo",data.accountNo);
+//       sessionStorage.setItem("phoneNo",data.phoneNumber);
+//       sessionStorage.setItem("balance",data.balance);
+//       sessionStorage.setItem("customerId",data.customerId);
+//       var initialAmount = 10000;
+//       const datas = {
+//       'accountNumber' : sessionStorage.getItem("accountNo"),
+//       'customerId' : sessionStorage.getItem("customerId"),
+//       'amount' :initialAmount.toString(),
+//       'balance': sessionStorage.getItem("balance"),
+//       'transactionType' : type
+//       }
     
 
-      fetch('/transactions',{
-      method: 'POST',
-      headers:{
-          'Accept': 'application/json',
-          'Content-Type' : 'application/json'
-      },
-      body: JSON.stringify(datas)
-      })
-      .then(res => res.json())
-      .then(data =>{
-      if(data.status === "success"){
-          console.log("succesfully inserted");
-          sessionStorage.removeItem("balance");
-          sessionStorage.setItem("balance",data.balance);
-          alert("Please note your account number for further transactions. "+sessionStorage.getItem("accountNo")+" Opening successful");
-         // dispatch({
-        //       type:'Add_logged_user',
-        //       active_user:sessionStorage.getItem("username")
-        //   })
-          navigate('/admin/home',{replace:true});
-        }else
-        alert("something wrong, try again later");
-      })  
-      .catch((error)=>{
-          console.log(error);
-          })  
-      }
-      })
-.catch((error)=>{
-  console.log(error);
-   })
+//       fetch('/transactions',{
+//       method: 'POST',
+//       headers:{
+//           'Accept': 'application/json',
+//           'Content-Type' : 'application/json'
+//       },
+//       body: JSON.stringify(datas)
+//       })
+//       .then(res => res.json())
+//       .then(data =>{
+//       if(data.status === "success"){
+//           console.log("succesfully inserted");
+//           sessionStorage.removeItem("balance");
+//           sessionStorage.setItem("balance",data.balance);
+//           alert("Please note your account number for further transactions. "+sessionStorage.getItem("accountNo")+" Opening successful");
+//          // dispatch({
+//         //       type:'Add_logged_user',
+//         //       active_user:sessionStorage.getItem("username")
+//         //   })
+//           navigate('/admin/home',{replace:true});
+//         }else
+//         alert("something wrong, try again later");
+//       })  
+//       .catch((error)=>{
+//           console.log(error);
+//           })  
+//       }
+//       })
+// .catch((error)=>{
+//   console.log(error);
+//    })
 
     }
   return (

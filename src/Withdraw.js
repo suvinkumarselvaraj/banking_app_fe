@@ -5,75 +5,82 @@ import { AltRoute } from '@mui/icons-material';
 function Withdraw() {
     const navigate = useNavigate();
     useEffect(()=>{
-        
-        fetch('/isSessionPresent',{
-            method: 'GET',
-            credentials: 'include'
+        async function isSession(){
+            const response = await fetch('/isSessionPresent',{
+                method: 'GET',
+                credentials:'include'
+            })
+            const resp = await response.json();
+            return resp;
+        }
+        isSession().then(data=>{
+            if(data.session == "absent")
+            navigate("/");
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            if(data.session == "absent"){
-                navigate('/');
-            }
+        .catch(err =>{
+            console.log(err);
         })
-    })
+    },[]);
     
     function handleWithdrawlSubmit(event){
         event.preventDefault();
-        var data = new FormData(event.target);
-        const password = data.get("password");
-        if((sessionStorage.getItem("balance")-data.get("withdrawlAmount"))<1000)
+        var formData = new FormData(event.target);
+        const password = formData.get("password");
+        if((sessionStorage.getItem("balance")-formData.get("withdrawlAmount"))<1000)
         {   alert("Perform a withdrawl such that your minimum balance will be maintained over Rs. 1000");
             return;
         }
         var type = "withdrawl";
         const passwordDatas = {'accountNumber':sessionStorage.getItem("accountNo"),'oPass':password};
-        fetch('/checkPassword',
-        {
-            method: 'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify(passwordDatas)
-        })
-        .then(res => res.json())
-        .then(datass =>{
-            if(datass.oldPasswordCheck === "success"){
+        async function passwordCheck(){
+            const response = await fetch('/checkPassword',{
+                method: 'POST',
+                headers:{
+                    'Accept':'application/json',
+                    'Content-type':'application/json'
+                },
+                body: JSON.stringify(passwordDatas)
+            })
+            const resp = await response.json();
+            return resp;
+        }
+        passwordCheck().then(data =>{
+            if(data.oldPasswordCheck == "success"){
                 const datas = {
                     'accountNumber' : sessionStorage.getItem("accountNo"),
                     'customerId' : sessionStorage.getItem("customerId"),
-                    'amount' :data.get("withdrawlAmount") ,
+                    'amount' :formData.get("withdrawlAmount") ,
                     'balance': sessionStorage.getItem("balance"),
                     'transactionType' : type
-                      }
-                  
-                      fetch('/transactions',{
-                          method: 'POST',
-                          headers:{
-                              'Accept':'application/json',
-                              'Content-Type' : 'application/json'
-                          },
-                          body: JSON.stringify(datas)
-                          })
-                         .then(res => res.json())
-                          .then(datasss =>{
-                          if(datasss.status === "success"){
-                              console.log("succesfully inserted");
-                              sessionStorage.setItem("balance",sessionStorage.getItem("balance")-data.get("withdrawlAmount"));
-                            //   sessionStorage.removeItem("balance");
-                              
-                              alert("withdrawal successful");
-                              navigate("/accountDetails",{replace:true});
-                            }else
-                            alert("something wrong, try again later");
-                      })              
-                     }else{
-                      alert('wrong password. try again!!');
+                }
+                transaction(datas).then(data =>{
+                    if(data.status == "success"){
+                        sessionStorage.setItem("balance",sessionStorage.getItem("balance")-formData.get("withdrawlAmount"));
+                        //   sessionStorage.removeItem("balance")
+                        alert("withdrawal successful");
+                        navigate("/accountDetails",{replace:true});
+                    }else{
+                        alert('something went wrong. try again later');
                     }
+                })
+                .catch(err => console.log(err))
+            }else{
+                alert('wrong password. try again')
+            }
         })
-        
+        .catch(err => console.log(err));
+        async function transaction(datas){
+            const response = await fetch('/transactions',{
+                method: 'post',
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(datas)
+            })
+            const resp = await response.json();
+            return resp;
+        }
     }
   return (
     <div className = 'Withdraw__container'>Withdraw

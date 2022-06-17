@@ -6,12 +6,17 @@ function TopCustomers() {
     const [customers, setCustomers] = useState([]);
     const [sortedCustomers, setSortedCustomers] = useState([]);
     useEffect(()=>{
-        fetch('/allUsers')
-        .then(res=>res.json())
-        .then(data=>{
-                console.log(data);
-                setCustomers(data);
-                
+        async function getUsers(){
+            const response = await fetch('/allUsers');
+            const resp = await response.json();
+            return resp;
+        }
+        getUsers().then(data =>{
+            console.log(data);
+            setCustomers(data);
+        })
+        .catch(err =>{
+            console.log(err);
         })
     },[])
     function compare(cx1, cx2){

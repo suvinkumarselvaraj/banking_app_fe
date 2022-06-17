@@ -5,36 +5,42 @@ import './Transactions.css';
 function Transactions() {
     const navigate = useNavigate();
     const [accounts,setAccounts] = useState([]);
+
     useEffect(()=>{
         console.log('logg in to check if this is working');
-        fetch('/isSessionPresent',{
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            if(data.session == "absent"){
-              navigate('/');
-            }
-            else
-            {
-            fetch('/transactiondetails?id='+id.toString())
-            .then(res => res.json())
-            .then(data=>{
-                setAccounts(data);
-                })
-            .catch(err => console.log(err));
-        }
+        async function iSSession(){
+            const response = await fetch('/isSessionPresent',{
+                method: 'GET',
+                credentials: 'include'
             })
-          },[])
+            const resp = await response.json();
+            return resp;
+        }
+        iSSession().then(data =>{
+            if(data.session == "absent"){
+                navigate('/');
+            }else{
+                transactionDetail().then(data=>{
+                    console.log(data);
+                    setAccounts(data);
+                    console.log(accounts);
+                })
+                .catch(err => console.log(err));
+            }
+        })
+        .catch(err => console.log(err));
+
+        async function transactionDetail(){
+            const responses = await fetch('/transactiondetails?id='+id.toString())
+            //const resp = await response.json();
+            const resp = await responses.json();
+            console.log(resp);
+            return resp;
+        }
+    },[])
 
     var i = 0;   
     var id = sessionStorage.getItem("customerId");
-    
- 
-
-
     return (
       <div className='Transactions__container'>
           <div className="row1__container">

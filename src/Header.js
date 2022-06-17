@@ -14,19 +14,21 @@ function Header() {
     console.log(event.target.innerHTML);
     if(event.target.innerHTML === 'Sign in')
     navigate("/login");
-
-    // type: 'Add_logged_user',
-    // logged_user: sessionStorage.getItem("username")
     console.log('about to call logout');
-    fetch('/logout',{
-      method:'get',
-      credentials:'include'
-    })
-    .then(res => res.json())
-    .then(data => {
+    async function logOut(){
+      const response = await fetch('/logout',{
+        method:'get',
+        credentials: 'include'
+      })
+      const resp = await response.json();
+      return resp;
+    }
+    logOut().then(data=>{
       console.log(data);
+    }).catch(err =>{
+      console.log(err);
     })
-    .catch(err => console.log(err));
+
     sessionStorage.clear();
     dispatch({
       type: 'Remove_logged_user',
